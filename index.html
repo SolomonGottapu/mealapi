@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
+    input {
+      padding: 10px;
+      width: 250px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+    }
+    ul {
+      text-align: left;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍳 Recipe Finder</h1>
+  <input type="text" id="mealInput" placeholder="Enter meal name...">
+  <button onclick="searchMeal()">Search</button>
+  <button onclick="getRandomMeal()">🎲 Random Recipe</button>
+
+  <div id="result"></div>
+
+  <script>
+    function displayMeal(meal) {
+      const ingredients = [];
+      for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+        if (ingredient && ingredient.trim()) {
+          ingredients.push(`${ingredient} - ${measure}`);
+        }
+      }
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `
+        <div class="card">
+          <h2>${meal.strMeal}</h2>
+          <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+          <p><strong>Category:</strong> ${meal.strCategory}</p>
+          <p><strong>Area:</strong> ${meal.strArea}</p>
+          <p><strong>Instructions:</strong> ${meal.strInstructions.slice(0, 300)}...</p>
+          <p><strong>Ingredients:</strong></p>
+          <ul>
+            ${ingredients.map(item => `<li>${item}</li>`).join("")}
+          </ul>
+          ${meal.strYoutube ? `<p><a href="${meal.strYoutube}" target="_blank">📺 Watch on YouTube</a></p>` : ""}
+        </div>
+      `;
+    }
+
+    function searchMeal() {
+      const mealName = document.getElementById("mealInput").value;
+      const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const meal = data.meals ? data.meals[0] : null;
+          if (meal) {
+            displayMeal(meal);
+          } else {
+            document.getElementById("result").innerHTML = `<p>No meal found with that name.</p>`;
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching meal:", error);
+        });
+    }
+
+    function getRandomMeal() {
+      const url = `https://www.themealdb.com/api/json/v1/1/random.php`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const meal = data.meals[0];
+          displayMeal(meal);
+        })
+        .catch(error => {
+          console.error("Error fetching random meal:", error);
+        });
+    }
+  </script>
+
+</body>
+</html>
