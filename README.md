@@ -18,7 +18,7 @@ A **static meal recipe website** built using **HTML, CSS, and JavaScript**, powe
 
 ## 🔗 Live Project
 
-**Demo:** [Click here to try it out!](https://solomongottapu.github.io/meal-api)
+**Demo:** [Click here to try it out!](https://solomongottapu.github.io/meal)  
 
 **GitHub:** [Repository Link](https://github.com/SolomonGottapu/meal-api)
 
