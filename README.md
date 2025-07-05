@@ -10,7 +10,7 @@ A **static meal recipe website** built using **HTML, CSS, and JavaScript**, powe
 - ⚡ Hosted entirely on **GitHub Pages**
 - 🧑‍💻 Built with **no backend** — data served as static JSON
 
-## 📁 Tech Stack
+##  Tech Stack
 
 - HTML, CSS, JavaScript
 - JSON (static)
